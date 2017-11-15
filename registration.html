@@ -1,0 +1,58 @@
+<html>
+  <head>
+    <title>BYOB Profiles API jQuery Client</title>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous">
+    </script>
+    <style type="text/css">
+      .error {
+        color: red;
+      }
+      .success {
+        color: green;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>BYOB Profiles API jQuery Client</h1>
+    <p>Simple client for creating profiles in the profiles API.</p>
+    <hr />
+    <div id="response"></div>
+    <br /><br />
+    <form id="reg-form">
+      <input type="email" name="email" placeholder="Email Address" value="a@b.c"/> <br />
+      <input type="name" name="name" placeholder="Name" value="test"/> <br />
+      <input type="password" name="password" placeholder="Password" value="Awesome1" /><br /><br />
+      <input type="submit" value="Create Account" />
+    </form>
+    <script>
+      const API_HOST = 'http://127.0.0.1:8080/api';
+
+      $('#reg-form').submit(function(event) {
+        event.preventDefault();
+        var data = {
+          'email': $('input[name=email]').val(),
+          'name': $('input[name=name]').val(),
+          'password': $('input[name=password]').val()
+        }
+        console.log(data);
+        $.post(API_HOST + '/profile/', data)
+          .done(function(response) {
+            console.log('done');
+            console.log(response);
+            $('#response').text('Profile created!');
+            $('#response').removeClass().addClass('success');
+          })
+          .fail(function(response) {
+            console.log('Fail');
+            console.log(response);
+            $('#response').text(response.responseText);
+            $('#response').removeClass().addClass('error');
+          });
+
+      });
+    </script>
+  </body>
+</html>
